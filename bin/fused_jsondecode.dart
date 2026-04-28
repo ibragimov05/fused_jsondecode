@@ -25,7 +25,7 @@ void main(List<String> args) => runZonedGuarded<void>(
       Uri.parse('https://raw.githubusercontent.com/ibragimov05/fused_jsondecode/main/large.json'),
     );
 
-    print(data);
+    print(data.keys);
   },
   (error, stack) {
     print("Error: ${error.toString()}\nStack: ${stack.toString()}");
