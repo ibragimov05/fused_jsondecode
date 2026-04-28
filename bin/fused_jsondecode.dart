@@ -1,21 +1,17 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:fused_jsondecode/fused_jsondecode.dart';
 import 'package:http/http.dart' as http;
 
 Future<Map<String, Object?>> fetchData(Uri url) async {
   final response = await http.get(url);
+  final decoded = jsonDecode$Fused(response.bodyBytes);
 
-  if (response.statusCode != 200) {
-    throw HttpException('GET $url failed: ${response.statusCode}');
-  }
-
-  if (jsonDecode$Fused(response.bodyBytes) case final Map<String, Object?> data) {
+  if (decoded case final Map<String, Object?> data) {
     return data;
   }
 
-  throw FormatException('Invalid JSON format: ${jsonDecode$Fused(response.bodyBytes).runtimeType}');
+  throw FormatException('Invalid JSON format: ${decoded.runtimeType}');
 }
 
 @pragma('vm:entry-point')
